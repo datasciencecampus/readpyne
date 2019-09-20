@@ -1,0 +1,9 @@
+\babel@toc {english}{}
+\contentsline {chapter}{\numberline {1}API Reference}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}readpyne.core}{1}{section.1.1}
+\contentsline {section}{\numberline {1.2}readpyne.decorators}{4}{section.1.2}
+\contentsline {section}{\numberline {1.3}readpyne.model}{4}{section.1.3}
+\contentsline {section}{\numberline {1.4}readpyne.io}{5}{section.1.4}
+\contentsline {chapter}{\numberline {2}Example usage}{7}{chapter.2}
+\contentsline {chapter}{Python Module Index}{9}{section*.30}
+\contentsline {chapter}{Index}{11}{section*.31}

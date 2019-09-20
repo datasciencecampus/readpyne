@@ -1,0 +1,6 @@
+[run]
+omit =
+     tests/*
+     ./setup.py
+     ./main.py
+     readpyne/exceptions.py

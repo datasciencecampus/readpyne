@@ -1,0 +1,1106 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>API Reference &#8212; readpyne  documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Example usage" href="example.html" />
+    <link rel="prev" title="Documentation for readpyne" href="index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="example.html" title="Example usage"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Documentation for readpyne"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">readpyne  documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-readpyne.readpyne">
+<span id="api-reference"></span><h1>API Reference<a class="headerlink" href="#module-readpyne.readpyne" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="readpyne">
+<h2>readpyne<a class="headerlink" href="#readpyne" title="Permalink to this headline">¶</a></h2>
+<p>The key functions and tools that allow the end user to use the library with no fuss</p>
+<dl class="function">
+<dt id="readpyne.readpyne.extract">
+<code class="descclassname">readpyne.readpyne.</code><code class="descname">extract</code><span class="sig-paren">(</span><em>image</em>, <em>classifier</em>, <em>context=default_context</em>, <em>output_folder=None</em>, <em>return_negatives=False</em>, <em>override_prediction=False</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.readpyne.extract" title="Permalink to this definition">¶</a></dt>
+<dd><p>A function utilised the core of the package to extract required lines and by
+default classifies the required and non-required lines.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Needs refactoring.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image</strong> (<em>np.array</em><em> or </em><em>str</em>) – image as loaded by <code class="docutils literal notranslate"><span class="pre">cv2.imread</span></code> or string path to the image on disk</p></li>
+<li><p><strong>classifier</strong> (<em>sklearn model</em><em> or </em><em>str</em>) – sklearn model for classification or a string to a pickled model
+loads the last trained model.
+Current default model is loaded if nothing else is provided.</p></li>
+<li><p><strong>context</strong> (<em>dict</em>) – parameter dictionary which contains default settings
+for various functions
+# TODO: Write better summary of how to use this</p></li>
+<li><p><strong>output_folder</strong> (<em>str</em>) – if provided will save the predicted lines</p></li>
+<li><p><strong>override_prediction</strong> (<em>bool</em>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> then it overwrites any filtering done by the model and turns this
+into a regular pipeline of getting just the subsets</p></li>
+<li><p><strong>expand</strong> (<em>dict</em>) – experimental feature. This will eventually accept a dictionary of parameters
+which will be trickled down into the core making testing easier. at the moment
+we can only change the vertical padding of the system</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a list of cutout lines in numpy array form if <code class="docutils literal notranslate"><span class="pre">return_negatives</span></code> is disabled,
+else a tuple containing both positive predictions and negatives (1s and 0s)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list | tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="readpyne.readpyne.extract_from_folder">
+<code class="descclassname">readpyne.readpyne.</code><code class="descname">extract_from_folder</code><span class="sig-paren">(</span><em>folder</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.readpyne.extract_from_folder" title="Permalink to this definition">¶</a></dt>
+<dd><p>A folder version of the <code class="docutils literal notranslate"><span class="pre">extract</span></code> function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>folder</strong> (<em>str</em>) – path the the folder from which to extract the images from</p></li>
+<li><p><strong>**kwrags</strong> – any other key word arguments to pass to the extract function.
+see <code class="docutils literal notranslate"><span class="pre">readpyne.model.extract</span></code> function documentation for more
+on which arguments are accepted</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>list containing the results of applying the <code class="docutils literal notranslate"><span class="pre">extract</span></code> function on
+each image</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="readpyne.readpyne.extras_pipe">
+<code class="descclassname">readpyne.readpyne.</code><code class="descname">extras_pipe</code><span class="sig-paren">(</span><em>imgs</em>, <em>expr={'date': '(\\d{1</em>, <em>2}\\/\\d{1</em>, <em>2}\\/\\d{1</em>, <em>2} \\d{1</em>, <em>2}:\\d{1</em>, <em>2})'</em>, <em>'shop': '(shop1|shop2)'}</em>, <em>unique=True</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.readpyne.extras_pipe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pipeline function to extract the extra bits we need.</p>
+<p>In essence provide it with all the non-item lines and a set of regular expressions.
+It will then go through each expression for each image and see what it can extract.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Under active development, might not be nice to use in this current API format, in
+which case this will be changed. This should be done by the NLP side to be fair, since
+its just regular expressions</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>imgs</strong> (<em>list</em>) – list of numpy arrays representing images.</p></li>
+<li><p><strong>expr</strong> (<em>dict</em><em>[</em><em>str:str</em><em>]</em>) – dictionary with a name for an extra item and its corresponding regular expression</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dictionary with signature <code class="docutils literal notranslate"><span class="pre">str:[str]</span></code>. each item in the dictionary is going to be
+a list of the same length as imgs with either found outputs from the regular expression
+or just an empty string. each key will be the same key as the ones within <code class="docutils literal notranslate"><span class="pre">expr</span></code></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="readpyne.readpyne.item_pipe">
+<code class="descclassname">readpyne.readpyne.</code><code class="descname">item_pipe</code><span class="sig-paren">(</span><em>imgs</em>, <em>cleaner=&lt;function default_cleaner&gt;</em>, <em>extractor=&lt;function extract_re&gt;</em>, <em>expr='(.+?)(-?\\d+.\\d+$)'</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.readpyne.item_pipe" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function abstracts a lot of work done by by <code class="docutils literal notranslate"><span class="pre">ocr_textM</span></code> and
+other function into one longer function that just takes in images of
+lines and exports a pandas dataframe.</p>
+<p>The opinionated parts of this pipeline are the regular expression
+(<code class="docutils literal notranslate"><span class="pre">expr</span></code>) that splits the string into item and price and the
+<code class="docutils literal notranslate"><span class="pre">default_cleaner</span></code> (see docs) function that is passed to the
+<code class="docutils literal notranslate"><span class="pre">cleaner</span></code> parameter by default. Both of which you can swap out.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Currently the OCR picks up minus signs as <code class="docutils literal notranslate"><span class="pre">~</span></code>. This is dealt with
+by substituting all occurances of <code class="docutils literal notranslate"><span class="pre">~</span></code> with <code class="docutils literal notranslate"><span class="pre">-</span></code> before using
+regular expressions to parse things. This is necessary to pick up
+negative values of price. This is performed by the <code class="docutils literal notranslate"><span class="pre">default_cleaner</span></code>
+function.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>imgs</strong> (<em>list</em>) – list of numpy arrays representing images.</p></li>
+<li><p><strong>cleaner</strong> (<em>function</em>) – a function with the type signature <code class="docutils literal notranslate"><span class="pre">String</span> <span class="pre">-&gt;</span> <span class="pre">String</span></code> that performs
+whatever cleaning is needed prior to splitting it by the regular expr.</p></li>
+<li><p><strong>extractor</strong> (<em>function</em>) – a function with a signature <code class="docutils literal notranslate"><span class="pre">String</span> <span class="pre">-&gt;</span> <span class="pre">(String,</span> <span class="pre">String)</span></code> that extracts
+the item and the price from a given string. by default such a function is
+provided (see docs for <code class="docutils literal notranslate"><span class="pre">extract_re</span></code>)</p></li>
+<li><p><strong>expr</strong> (<em>str</em>) – str of the regexp to pass into the <code class="docutils literal notranslate"><span class="pre">expr</span></code> parameter into the extractor</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>pandas dataframe containing the extracted items and prices</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="readpyne.readpyne.shopscan">
+<code class="descclassname">readpyne.readpyne.</code><code class="descname">shopscan</code><span class="sig-paren">(</span><em>img</em>, <em>shops='(shop1|shop2|shop3)'</em>, <em>header_frac=0.1</em>, <em>tail=False</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.readpyne.shopscan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes in an image of a receipt, then based on a certain set of shop names
+and a header percentage will try to detect if the shopname is in the header.</p>
+<p>Useful for detecting shop type and such.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Setting <code class="docutils literal notranslate"><span class="pre">header_frac</span></code> to either 1 or 0 will just run the whole receipt</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> (<em>numpy.ndarray</em>) – image of the receipt</p></li>
+<li><p><strong>shops</strong> (<em>str</em>) – regex string similary to <code class="docutils literal notranslate"><span class="pre">(shop1|shop2|shop3)</span></code>. In other words,
+the shop has to be captured in a group</p></li>
+<li><p><strong>header_frac</strong> (<em>float</em>) – a floating point number representing how much of the height to search</p></li>
+<li><p><strong>tail</strong> (<em>bool</em>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> the function will look at a given fraction from the bottom
+instead of from the top</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the shop name that it found. if none are found, it returns ‘’</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<span class="target" id="module-readpyne.model"></span><div class="section" id="readpyne-model">
+<h2>readpyne.model<a class="headerlink" href="#readpyne-model" title="Permalink to this headline">¶</a></h2>
+<p>Model training, prediction and data making functions</p>
+<dl class="function">
+<dt id="readpyne.model.make_training_data">
+<code class="descclassname">readpyne.model.</code><code class="descname">make_training_data</code><span class="sig-paren">(</span><em>input_folder</em>, <em>output_folder=None</em>, <em>interactive=True</em>, <em>context={'boxes': {'min_east_confidence': 0.4}</em>, <em>'expand': {'pad': (0.2</em>, <em>0.3)}}</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.model.make_training_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make training data from a folder of images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_folder</strong> (<em>str</em>) – Folder where the images are stored</p></li>
+<li><p><strong>output_folder</strong> (<em>str</em>) – Folder where will the data will be saved. If not provided then
+data won’t be saved and will be just returned.</p></li>
+<li><p><strong>interactive</strong> (<em>bool</em><em> (</em><em>default: True</em><em>)</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code> will enable a interactive labelling mode where images
+shown one by one and the user is asked to label them 1 or 0 one by
+one. If <code class="docutils literal notranslate"><span class="pre">output_folder</span></code> is provided this will be respected.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>if the data was interactively labelled, the labelled dataframe will
+be returned, else a boolean will be returned indicating successfull
+completion and saving of the training data.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool or pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="readpyne.model.plot_scaling">
+<code class="descclassname">readpyne.model.</code><code class="descname">plot_scaling</code><span class="sig-paren">(</span><em>df</em>, <em>plot</em>, <em>model_type=&lt;class 'sklearn.neighbors.classification.KNeighborsClassifier'&gt;</em>, <em>splits=100</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.model.plot_scaling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the scaling of data given a sklearn classifier and a training dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pd.DataFrame</em>) – pandas dataframe containing the training feature columns and labels. The last column
+should be the label column.</p></li>
+<li><p><strong>plot</strong> (<em>bool</em>) – if <cite>True</cite> this will plot the data before returning</p></li>
+<li><p><strong>model_type</strong> (<em>sklearn classifier</em>) – this has to be a classifier following the sklearn API (uses <code class="docutils literal notranslate"><span class="pre">.fit</span></code> and <code class="docutils literal notranslate"><span class="pre">.predict</span></code>)</p></li>
+<li><p><strong>splits</strong> (<em>int</em>) – number of splits to do of your data</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>numpy array containing the <code class="docutils literal notranslate"><span class="pre">size</span> <span class="pre">of</span> <span class="pre">data</span></code>, <code class="docutils literal notranslate"><span class="pre">accuracy</span></code> score and <code class="docutils literal notranslate"><span class="pre">f1</span></code> score.
+This is the data that is used to plot the chart internally.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="readpyne.model.status">
+<code class="descclassname">readpyne.model.</code><code class="descname">status</code><span class="sig-paren">(</span><em>name</em>, <em>x</em>, <em>y</em>, <em>model</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.model.status" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function is responsible for reporting the quality of the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – A string that will be the title of report</p></li>
+<li><p><strong>x</strong> (<em>numpy.array</em>) – A numpy array with training features.</p></li>
+<li><p><strong>y</strong> (<em>numpy.array</em>) – A numpy array with labels</p></li>
+<li><p><strong>model</strong> (<em>sklearn model</em>) – A model to be scored</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="readpyne.model.train_model">
+<code class="descclassname">readpyne.model.</code><code class="descname">train_model</code><span class="sig-paren">(</span><em>df</em>, <em>report=False</em>, <em>save_path=None</em>, <em>frac_test=0.25</em>, <em>sk_model=&lt;class 'sklearn.neighbors.classification.KNeighborsClassifier'&gt;</em>, <em>model_params={'n_neighbors': 2}</em>, <em>grid_params={'n_neighbors': [2</em>, <em>3</em>, <em>4</em>, <em>5]}</em>, <em>grid_cv=5</em>, <em>scaling_plot=False</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.model.train_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a set of data an labels. Train a sklearn model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pd.DataFrame</em><em> (or </em><em>str</em><em>)</em>) – <p>the dataframe containing the training features and labels
+anything until the last column as features (<code class="docutils literal notranslate"><span class="pre">df.iloc[:,:-1]</span></code>)
+and the last column is the labels (<code class="docutils literal notranslate"><span class="pre">df.iloc[:,-1]</span></code>)</p>
+<p>if a string is provided, it will attempt to load the dataset from
+the <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file</p>
+</p></li>
+<li><p><strong>report</strong> (<em>bool</em>) – A boolean that tells you if you need the reporting procedure to run.</p></li>
+<li><p><strong>save_path</strong> (<em>str</em>) – A path to save the model to</p></li>
+<li><p><strong>frac_test</strong> (<em>float</em>) – A float indicating the amount of data to keep for testing.</p></li>
+<li><p><strong>sk_model</strong> (<em>sklearn model object</em>) – sklearn model that will be trained. An instance of it will be created and then
+trained.</p></li>
+<li><p><strong>model_params</strong> (<em>dict</em>) – A dict of parameters to be passed to the sklearn model.</p></li>
+<li><p><strong>grid_params</strong> (<em>dict</em><em> or </em><em>None</em>) – parameter dictionary for the GridSearchCV class in sklearn (see its documentation)
+for more information. If provided this enables gridsearch to be done for best
+performing hyperparameters</p></li>
+<li><p><strong>grid_cv</strong> (<em>int</em>) – specifies how many times crossvalidation is to be done in GridSearchCV
+(ignored if grid_params is set to None)</p></li>
+<li><p><strong>scaling_plot</strong> (<em>bool</em>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> will plot the scaling of the given model with increase in data
+for this to work, <code class="docutils literal notranslate"><span class="pre">report</span></code> has to be set to True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>sklearn model</em> – Trained sklearn model</p></li>
+<li><p><em>tuple</em> – A tuple containing the untouched test data <code class="docutils literal notranslate"><span class="pre">(X_test,</span> <span class="pre">y_test)</span></code></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<span class="target" id="module-readpyne.ocr"></span><div class="section" id="readpyne-ocr">
+<h2>readpyne.ocr<a class="headerlink" href="#readpyne-ocr" title="Permalink to this headline">¶</a></h2>
+<p>The OCR functionality of the package</p>
+<dl class="function">
+<dt id="readpyne.ocr.ocr_img_preprocess">
+<code class="descclassname">readpyne.ocr.</code><code class="descname">ocr_img_preprocess</code><span class="sig-paren">(</span><em>img</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.ocr.ocr_img_preprocess" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the default preprocessor that goes before the ocr
+Current preprocessing (note: might forget to update this)</p>
+<ol class="arabic simple">
+<li><p>Convert to grayscale</p></li>
+<li><p>Threshold (img, 0, 255, Binary Thresh Invert | Thresh Otsu)</p></li>
+<li><p>Median blur with size 3</p></li>
+<li><p>Dilate, kernel size (1,1), iterations = 1</p></li>
+<li><p>Bitwise not (restore normal colors)</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>img</strong> (<em>np.array</em>) – A numpy array representing an image (3 channels)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="readpyne.ocr.ocr_text">
+<code class="descclassname">readpyne.ocr.</code><code class="descname">ocr_text</code><span class="sig-paren">(</span><em>img</em>, <em>pyt_config='--psm 7 --oem 1'</em>, <em>ret_preprocessed=True</em>, <em>preprocessor=&lt;function ocr_img_preprocess&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.ocr.ocr_text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Take in an image and after some preprocessing shove it into tesseract.
+Push through tesseract.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> (<em>np.array</em>) – A numpy array representing an image (3 channels)</p></li>
+<li><p><strong>pyt_config</strong> (<em>str</em>) – Config to pass to pytesseract.</p></li>
+<li><p><strong>ret_preprocessed</strong> (<em>bool</em>) – If True, this will return the image after preprocessing</p></li>
+<li><p><strong>preprocessor</strong> (<em>function</em>) – <p>function with a type signature of <code class="docutils literal notranslate"><span class="pre">Image</span> <span class="pre">-&gt;</span> <span class="pre">Image</span></code> that will
+preprocess the image before <code class="docutils literal notranslate"><span class="pre">OCR</span></code></p>
+<p>by default the <code class="docutils literal notranslate"><span class="pre">ocr_img_preprocess</span></code> is used</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A tuple containing the extracted text and the image (original or preprocessed)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="readpyne.ocr.ocr_textM">
+<code class="descclassname">readpyne.ocr.</code><code class="descname">ocr_textM</code><span class="sig-paren">(</span><em>imgs</em>, <em>jobs=8</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.ocr.ocr_textM" title="Permalink to this definition">¶</a></dt>
+<dd><p>A mapping function across a list of images for <code class="docutils literal notranslate"><span class="pre">ocr_text</span></code>.
+Takes in a list of images and applies ocr_text.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Does not return a <code class="docutils literal notranslate"><span class="pre">map</span></code> object. Uses a list comprehension so
+you get a <code class="docutils literal notranslate"><span class="pre">list</span></code>.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>imgs</strong> (<em>list</em>) – list of numpy arrays representing images.</p></li>
+<li><p><strong>jobs</strong> (<em>int</em>) – integer telling how many processes to spin up to do the extraction.
+if <code class="docutils literal notranslate"><span class="pre">0</span></code> none will be spun up and it will be done without any concurrency
+by default set to number of cores (docs might say otherwise)</p></li>
+<li><p><strong>**kwargs</strong> – Any other keyword arguments you want to pass to <code class="docutils literal notranslate"><span class="pre">ocr_text</span></code> such as
+custom configs for tesseract and perhaps diverging preprocessing in the
+future.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of tuples <code class="docutils literal notranslate"><span class="pre">[(str,</span> <span class="pre">np.array)]</span></code></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<span class="target" id="module-readpyne.utils"></span><div class="section" id="readpyne-utils">
+<h2>readpyne.utils<a class="headerlink" href="#readpyne-utils" title="Permalink to this headline">¶</a></h2>
+<p>A small selection of utility functions</p>
+<dl class="function">
+<dt id="readpyne.utils.build_distance_matrix">
+<code class="descclassname">readpyne.utils.</code><code class="descname">build_distance_matrix</code><span class="sig-paren">(</span><em>iter1</em>, <em>iter2</em>, <em>function=&lt;function levenshtein&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.utils.build_distance_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build a distance matrix given two lists of text and a function used
+to compare the entries</p>
+<p>If iter1 is of length <code class="docutils literal notranslate"><span class="pre">m</span></code> and iter2 is of length <code class="docutils literal notranslate"><span class="pre">n</span></code> then the
+resulting matrix is <code class="docutils literal notranslate"><span class="pre">m</span> <span class="pre">x</span> <span class="pre">n</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>iter1</strong> (<em>list</em>) – iterable of any kind but developed with lists</p></li>
+<li><p><strong>iter2</strong> (<em>list</em>) – iterable of any kind but developed with lists</p></li>
+<li><p><strong>function</strong> (<em>callable</em>) – a callable (function) that takes in 2 positional arguments and
+returns a value. mapped across a cartesian product of iterables
+to return a matrix</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="readpyne.utils.fuzzy_compare_iter">
+<code class="descclassname">readpyne.utils.</code><code class="descname">fuzzy_compare_iter</code><span class="sig-paren">(</span><em>iterable1</em>, <em>iterable2</em>, <em>function=&lt;function levenshtein&gt;</em>, <em>threshold=0.8</em>, <em>fill_val='N/A'</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.utils.fuzzy_compare_iter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Used to compare two lists (or iterables). Their comparison will be based on the values
+outputed for each pair by the <code class="docutils literal notranslate"><span class="pre">function</span></code> given.</p>
+<p>The idea is to first create a distance matrix using the function as the comparator,
+then retrieve any pairs that pass a given value threshold. If a value from the first
+iterable doesn’t have anything in the second iterable that passed the threshold
+the fill value will be returned</p>
+<p>The method:
+x = [str] of length n
+y = [str] of length m</p>
+<ol class="arabic simple">
+<li><p>compute an n x m matrix of levenshtein distances <code class="docutils literal notranslate"><span class="pre">D</span></code> between each string
+in <code class="docutils literal notranslate"><span class="pre">x</span></code> and each string in <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p></li>
+<li><p>for each row from <code class="docutils literal notranslate"><span class="pre">i</span></code> to <code class="docutils literal notranslate"><span class="pre">n</span></code> in the resulting matrix D, map across each
+row and find the maximum value</p></li>
+<li><p>if the maximum value is not greater than <code class="docutils literal notranslate"><span class="pre">threshold</span></code>, value of a new variable
+<code class="docutils literal notranslate"><span class="pre">z</span></code> will be set <code class="docutils literal notranslate"><span class="pre">fill_val</span></code>, if the value is larger than <code class="docutils literal notranslate"><span class="pre">threshold</span></code> then
+the column index is returned.</p></li>
+<li><p>finally any column indices generated in step (3) are turned into the corresponding
+values from <code class="docutils literal notranslate"><span class="pre">y</span></code> and the <code class="docutils literal notranslate"><span class="pre">fill_val</span></code> indicating missing rows will be propagated</p></li>
+</ol>
+<p class="rubric">Example</p>
+<p>a = [ 1, 2, 3 ]
+b = [ 0, 0, 100 ]
+distance = lambda x, y: y - x</p>
+<p>fuzzy_compare_iter(a, b, function=distance, threshold=0, fill_val=”MISSING”)</p>
+<dl class="simple">
+<dt>Out:</dt><dd><p>[“MISSING”, “MISSING”, 97]</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>iterable1</strong> (<em>list | iterable</em>) – something to use as a basis. the length of the return will be based on the
+length of this iterable</p></li>
+<li><p><strong>iterable2</strong> (<em>list | iterable</em>) – essential similar to iterable1, but will be used more as lookup</p></li>
+<li><p><strong>function</strong> (<em>callable</em>) – callable function that takes 2 postional arguments which will provide a score
+as this is developed for text, it is set to the levenshtein distance</p></li>
+<li><p><strong>threshold</strong> (<em>numeric</em>) – value to compare the distance matrix by</p></li>
+<li><p><strong>fill_val</strong> – anything passed into this function will be the placeholder that will be passed
+if a value for iterable1 has nothing to close enough in iterable2</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="readpyne.utils.quality_metric">
+<code class="descclassname">readpyne.utils.</code><code class="descname">quality_metric</code><span class="sig-paren">(</span><em>lines</em>, <em>gold</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.utils.quality_metric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compare a list of text lines to the <code class="docutils literal notranslate"><span class="pre">gold</span> <span class="pre">standard</span></code> (ground truth)
+for a given receipt. This metric takes into account both the character
+level OCR quality and the recall of lines.</p>
+<p>The key method here is that of the <code class="docutils literal notranslate"><span class="pre">fuzzy_compare_iter</span></code> function with
+a levenshtein (edit) distance and 2 lists of strings.</p>
+<p>By using <code class="docutils literal notranslate"><span class="pre">fuzzy_compare_iter</span></code> and then filtering values with a placeholder
+we can then check how many rows were recalled ‘close enough’ (using the default)
+threshold value in <code class="docutils literal notranslate"><span class="pre">fuzzy_compare_iter</span></code>. TODO: Add parametrisation of this fn.</p>
+<p>Once we have the lines we recalled, we then use levenstein distance to compare them
+and use that as our precision metric.</p>
+<p>Finally the number of lines recalled ‘close enough’ divided by the number of lines
+in the gold standard is our <code class="docutils literal notranslate"><span class="pre">recall</span></code> approximation and the precision of is measured
+by how well the characters in each of the recalled lines match using levenshtein
+distance across the whole string.</p>
+<p>To get the final metric we use a harmonic mean of precision and recall.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lines</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – list of text strings</p></li>
+<li><p><strong>gold</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – list of text strings representing ground truth</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>an approximation of a makeshift F1-score</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<span class="target" id="module-readpyne.core"></span><div class="section" id="readpyne-core">
+<h2>readpyne.core<a class="headerlink" href="#readpyne-core" title="Permalink to this headline">¶</a></h2>
+<p>the core functionality for readpyne.</p>
+<dl class="function">
+<dt id="readpyne.core.binit">
+<code class="descclassname">readpyne.core.</code><code class="descname">binit</code><span class="sig-paren">(</span><em>l_arrays</em>, <em>n_features=100</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.core.binit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes in a list of 3 1d arrays of length <code class="docutils literal notranslate"><span class="pre">n</span></code> and firstly it bins it
+into a set number of features dictated by <code class="docutils literal notranslate"><span class="pre">n_features</span></code>. This produces
+an array of length <code class="docutils literal notranslate"><span class="pre">n_features</span></code>. Then it stacks the three arrays
+into a 1d array of length <code class="docutils literal notranslate"><span class="pre">3</span> <span class="pre">*</span> <span class="pre">n_features</span></code></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function does not check if the len of the input list of arrays is 3.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>l_arrays</strong> (<em>list</em>) – A list of arrays of length <code class="docutils literal notranslate"><span class="pre">n</span></code>. Usually this will be a vertically
+collapsed image that has been passed through <code class="docutils literal notranslate"><span class="pre">cv2.split</span></code> to split its
+channels.</p></li>
+<li><p><strong>n_features</strong> (<em>int</em>) – An integer telling the function how many features to produce per array.
+This dictates the shape of end array as the resulting array will have a
+length of <code class="docutils literal notranslate"><span class="pre">3</span> <span class="pre">*</span> <span class="pre">n_features</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A numpy array of length <code class="docutils literal notranslate"><span class="pre">3</span> <span class="pre">*</span> <span class="pre">n_features</span></code></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="readpyne.core.blobify">
+<code class="descclassname">readpyne.core.</code><code class="descname">blobify</code><span class="sig-paren">(</span><em>img</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.core.blobify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Take in an image and pass it through <code class="docutils literal notranslate"><span class="pre">cv2.dnn.blobFromImage</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>blob</strong> (<em>cv2.blob</em>) – An image that has been <code class="docutils literal notranslate"><span class="pre">blobified</span></code> by cv2.
+(see the cv2.dnn.blobFromImage function documentation)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="readpyne.core.boxes">
+<code class="descclassname">readpyne.core.</code><code class="descname">boxes</code><span class="sig-paren">(</span><em>img</em>, <em>context</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.core.boxes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Take in an image, resize it, predict boxes. Then perform
+expansion of the boxes to the width of the receipt and then
+perform <code class="docutils literal notranslate"><span class="pre">non_max_supression</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> (<em>numpy.array</em>) – A numpy array representation of an image.</p></li>
+<li><p><strong>context</strong> (<em>dict</em>) – parameter dictionary which contains default settings
+for various functions
+# TODO: Write better summary of how to use this</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>np.array</em> – The original image</p></li>
+<li><p><em>list</em> – Predicted subsets for the image.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="readpyne.core.decode">
+<code class="descclassname">readpyne.core.</code><code class="descname">decode</code><span class="sig-paren">(</span><em>scores</em>, <em>geo</em>, <em>min_east_confidence</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.core.decode" title="Permalink to this definition">¶</a></dt>
+<dd><p>This takes the geometries and confidence scores and produces bounding box values.
+The inputs to this function come from the EAST model with 2 layers.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>THIS FUNCTION IS UNTESTED</p>
+<p>This function borrows heavily from:
+<a class="reference external" href="https://www.pyimagesearch.com/2018/08/20/opencv-text-detection-east-text-detector/">https://www.pyimagesearch.com/2018/08/20/opencv-text-detection-east-text-detector/</a></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scores</strong> (<em>numpy.array</em>) – numpy array of size <code class="docutils literal notranslate"><span class="pre">(number</span> <span class="pre">of</span> <span class="pre">found</span> <span class="pre">boxes,</span> <span class="pre">)</span></code> indicating the assigned
+confidence scores for each box.</p></li>
+<li><p><strong>geo</strong> (<em>numpy.array</em>) – numpy array coming out from EAST
+that describes where the boxes are.</p></li>
+<li><p><strong>min_east_confidence</strong> (<em>float</em>) – confidence level at which to cut off the boxes</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A numpy array of shape <code class="docutils literal notranslate"><span class="pre">(n,</span> <span class="pre">5)</span></code> containing the confidences and box locations
+for the boxes that are of a certain confidence.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="readpyne.core.expand">
+<code class="descclassname">readpyne.core.</code><code class="descname">expand</code><span class="sig-paren">(</span><em>arr</em>, <em>shape</em>, <em>pad</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.core.expand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to expand an array of image coordinates to the full width of
+the image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>arr</strong> (<em>numpy.array</em>) – A two dimensional array of coordinates which are in the form of
+<code class="docutils literal notranslate"><span class="pre">startX,</span> <span class="pre">startY,</span> <span class="pre">endX,</span> <span class="pre">endY</span></code></p></li>
+<li><p><strong>shape</strong> (<em>tuple</em>) – A tuple containing the shape of the original receipt image.
+Easily accessible through the use of the <code class="docutils literal notranslate"><span class="pre">.shape</span></code> method on an
+image.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A numpy array of the same shape as the original array but with
+the <code class="docutils literal notranslate"><span class="pre">x</span></code> values in each row expanded to the width of the image.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="readpyne.core.features">
+<code class="descclassname">readpyne.core.</code><code class="descname">features</code><span class="sig-paren">(</span><em>img</em>, <em>subsets</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.core.features" title="Permalink to this definition">¶</a></dt>
+<dd><p>Take an image and its subsets created from <code class="docutils literal notranslate"><span class="pre">boxes</span></code> and
+produce histogram based features for each subset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> (<em>numpy.array</em>) – numpy array representation of an image.</p></li>
+<li><p><strong>subsets</strong> (<em>list</em>) – list of numpy arrays of the subsets.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>list</em> – subsets originally passed into the function</p></li>
+<li><p><em>list</em> – list of 1d numpy arrays</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="readpyne.core.forward">
+<code class="descclassname">readpyne.core.</code><code class="descname">forward</code><span class="sig-paren">(</span><em>blob, layers=['feature_fusion/Conv_7/Sigmoid', 'feature_fusion/concat_3']</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.core.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Take in a <code class="docutils literal notranslate"><span class="pre">cv2</span> <span class="pre">blob</span></code> and pass it forward through an <code class="docutils literal notranslate"><span class="pre">EAST</span></code> model.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The layers in the model by default are <code class="docutils literal notranslate"><span class="pre">&quot;feature_fusion/Conv_7/Sigmoid&quot;,</span> <span class="pre">&quot;feature_fusion/concat_3&quot;</span></code></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>blob</strong> (<em>cv2.blob</em>) – image that has been <code class="docutils literal notranslate"><span class="pre">blobified</span></code> by cv2.
+(see the blobify function documentation)</p></li>
+<li><p><strong>layers</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – list of string indicating which layers of the NN to pass the image through</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>numpy.array</em> – Scores array for each box found.</p></li>
+<li><p><em>numpy.array</em> – Bounding box locations from EAST</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="readpyne.core.get_subsets">
+<code class="descclassname">readpyne.core.</code><code class="descname">get_subsets</code><span class="sig-paren">(</span><em>img</em>, <em>boxes</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.core.get_subsets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Take an image and box locations. Then cut out these boxes from the given image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> (<em>numpy.array</em>) – numpy array representation of an image.</p></li>
+<li><p><strong>boxes</strong> (<em>iterable</em>) – iterable (most likely a numpy.array) containing box coordinates.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>list of subsets.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="readpyne.core.hist">
+<code class="descclassname">readpyne.core.</code><code class="descname">hist</code><span class="sig-paren">(</span><em>img</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.core.hist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Histogram creation function. This function takes an input image and then
+collapses it vertically by using <code class="docutils literal notranslate"><span class="pre">np.mean</span></code>. It does this for each channel
+of the image as it uses <code class="docutils literal notranslate"><span class="pre">cv2.split</span></code> to get each channel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>img</strong> (<em>numpy.array</em>) – This is a numpy array representation of an input image. Expected shape
+for this array is <code class="docutils literal notranslate"><span class="pre">(n,m,3)</span></code> where <code class="docutils literal notranslate"><span class="pre">n</span></code> is the height and <code class="docutils literal notranslate"><span class="pre">m</span></code> is the
+width of the image.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of numpy arrays. Each array will be of length <code class="docutils literal notranslate"><span class="pre">m</span></code> where
+<code class="docutils literal notranslate"><span class="pre">m</span></code> is the width of the input image.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="readpyne.core.process">
+<code class="descclassname">readpyne.core.</code><code class="descname">process</code><span class="sig-paren">(</span><em>img</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.core.process" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that performs preprocessing before histograms are created.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>img</strong> (<em>numpy.array</em>) – A numpy array of shape (n,m,3) containing an image.
+Usually this will be a subset of a larger receipt.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A numpy array representation of the input image after
+all the processing was applied.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="readpyne.core.resize">
+<code class="descclassname">readpyne.core.</code><code class="descname">resize</code><span class="sig-paren">(</span><em>img</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.core.resize" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function resizes an input image to the correct dimensions for the
+<code class="docutils literal notranslate"><span class="pre">EAST</span></code> model that is used for text detection.</p>
+<p>The dimensions for <code class="docutils literal notranslate"><span class="pre">EAST</span></code> have to be divisable by 32. This function pads
+the bottom and the right side of the image by a as many pixels as it needs
+for this to happen.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The image is padded with white as the color and this is then propogated to
+the rest of the pipeline under normal circumstances.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>img</strong> (<em>numpy.array</em>) – This is a numpy array representation of an input image. Expected shape
+for this array is <code class="docutils literal notranslate"><span class="pre">(n,m,3)</span></code> where <code class="docutils literal notranslate"><span class="pre">n</span></code> is the height and <code class="docutils literal notranslate"><span class="pre">m</span></code> is the
+width of the image.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>img</strong> – The white padded image with dimensions now divisable by 32.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="readpyne.core.stack">
+<code class="descclassname">readpyne.core.</code><code class="descname">stack</code><span class="sig-paren">(</span><em>features</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.core.stack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stack features. Basically take in a list containing
+tuples of subsets and histogram based features and
+stack them all up.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>features</strong> (<em>list</em>) – List of type <code class="docutils literal notranslate"><span class="pre">[([subsets],</span> <span class="pre">[features]),</span> <span class="pre">...]</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>tuple of type <code class="docutils literal notranslate"><span class="pre">([all_subsets],[all_features])</span></code></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<span class="target" id="module-readpyne.io"></span><div class="section" id="readpyne-io">
+<h2>readpyne.io<a class="headerlink" href="#readpyne-io" title="Permalink to this headline">¶</a></h2>
+<p>All input output functions</p>
+<dl class="function">
+<dt id="readpyne.io.cutout_save">
+<code class="descclassname">readpyne.io.</code><code class="descname">cutout_save</code><span class="sig-paren">(</span><em>path</em>, <em>img</em>, <em>subsets</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.io.cutout_save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Take an image and its subsets and export it to the given path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – A path to be used to save all subsets.</p></li>
+<li><p><strong>img</strong> (<em>numpy array</em>) – A numpy array representing the image.</p></li>
+<li><p><strong>subsets</strong> (<em>list</em>) – A list of numpy array of each subset.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="readpyne.io.export_raw_ocr">
+<code class="descclassname">readpyne.io.</code><code class="descname">export_raw_ocr</code><span class="sig-paren">(</span><em>ocr_results</em>, <em>filename='ocr_results.txt'</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.io.export_raw_ocr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Export the result of the ocr line extraction provided by <code class="docutils literal notranslate"><span class="pre">ocr.ocr_textM</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ocr_results</strong> (<em>list</em>) – list of tuples containing a <code class="docutils literal notranslate"><span class="pre">str</span></code> of text and a <code class="docutils literal notranslate"><span class="pre">numpy.array</span></code> for the
+image.</p></li>
+<li><p><strong>filename</strong> (<em>str</em>) – a string path to the while which will be used to save the ocr text.
+(default: <code class="docutils literal notranslate"><span class="pre">&quot;ocr_results.txt&quot;</span></code>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="readpyne.io.get_data">
+<code class="descclassname">readpyne.io.</code><code class="descname">get_data</code><span class="sig-paren">(</span><em>folder='data/training'</em>, <em>jobs=8</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.io.get_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load all images in a folder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>folder</strong> (<em>str</em>) – string path to where the images are.</p></li>
+<li><p><strong>jobs</strong> (<em>int</em>) – number of threads to start for the loading
+default: this will be set to the number of cores
+although the documenation might state otherwise.
+will stop using threading if set to 0</p></li>
+<li><p><strong>**kwargs</strong> – anything passed into the keyword arguments will be
+passed onto the <code class="docutils literal notranslate"><span class="pre">load_validate</span></code> function</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>list of images</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="readpyne.io.interactive_labelling">
+<code class="descclassname">readpyne.io.</code><code class="descname">interactive_labelling</code><span class="sig-paren">(</span><em>subs</em>, <em>features</em>, <em>output_folder=None</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.io.interactive_labelling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function with an event loop to label the subsets of training images.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function is untested.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>subs</strong> (<em>list</em><em>[</em><em>np.array</em><em>]</em>) – list of image representing found lines in a receipt</p></li>
+<li><p><strong>features</strong> (<em>list</em><em>[</em><em>np.array</em><em>]</em>) – list representing the features for line classifier</p></li>
+<li><p><strong>output_folder</strong> (<em>str</em>) – path to the output folder (without the final /) where the
+labeled data is to be saved.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>if successful will return pandas dataframe with features and final
+column as <cite>labels</cite></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="readpyne.io.load_model">
+<code class="descclassname">readpyne.io.</code><code class="descname">load_model</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.io.load_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a model from a string path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – A path to the model</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>sklearn model</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="readpyne.io.load_validate">
+<code class="descclassname">readpyne.io.</code><code class="descname">load_validate</code><span class="sig-paren">(</span><em>filename</em>, <em>multiple_receipts=False</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.io.load_validate" title="Permalink to this definition">¶</a></dt>
+<dd><p>A thin wrapper on top of <code class="docutils literal notranslate"><span class="pre">cv2.imread</span></code> that makes sure the
+image is loaded and if its sideways.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – path to the file</p></li>
+<li><p><strong>multiple_receipts</strong> (<em>bool</em>) – specify whether the image is a single receipt
+or multiple receipts on one image.
+defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>numpy array of the image</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="readpyne.io.save_images">
+<code class="descclassname">readpyne.io.</code><code class="descname">save_images</code><span class="sig-paren">(</span><em>image_list</em>, <em>path='outputs/training'</em>, <em>offset=0</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.io.save_images" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of images exports to a given folder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image_list</strong> (<em>list</em>) – A list of images represented as numpy.arrays</p></li>
+<li><p><strong>path</strong> (<em>string</em>) – A path to the folder.</p></li>
+<li><p><strong>offset</strong> (<em>int</em>) – this integer dictates by how many to shift the names of the
+resulting images. for example if <code class="docutils literal notranslate"><span class="pre">offset</span></code> is 2, the images
+will start being numbered from 2 onwards.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="readpyne.io.save_stack">
+<code class="descclassname">readpyne.io.</code><code class="descname">save_stack</code><span class="sig-paren">(</span><em>subs</em>, <em>features</em>, <em>folder</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.io.save_stack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get subsets and features and export them.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>subs</strong> (<em>list</em><em>[</em><em>np.array</em><em>]</em>) – list of numpy arrays representing subsets of the image.</p></li>
+<li><p><strong>features</strong> (<em>list</em><em>[</em><em>np.array</em><em>]</em>) – list of features.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>subs</em> – Same as input</p></li>
+<li><p><em>features</em> – Same as input</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="readpyne.io.show">
+<code class="descclassname">readpyne.io.</code><code class="descname">show</code><span class="sig-paren">(</span><em>img</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.io.show" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use the matplotlib pyplot function to show the image.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function is untested.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>img</strong> (<em>numpy array</em>) – A numpy array representing the image.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="readpyne.io.show_ocr">
+<code class="descclassname">readpyne.io.</code><code class="descname">show_ocr</code><span class="sig-paren">(</span><em>ocr_results</em><span class="sig-paren">)</span><a class="headerlink" href="#readpyne.io.show_ocr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show <code class="docutils literal notranslate"><span class="pre">OCR</span></code> results from the <code class="docutils literal notranslate"><span class="pre">ocr_textM</span></code> function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ocr_results</strong> (<em>list</em>) – list of tuples containing a <code class="docutils literal notranslate"><span class="pre">str</span></code> of text and a <code class="docutils literal notranslate"><span class="pre">numpy.array</span></code> for the
+image.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#readpyne">readpyne</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#readpyne-model">readpyne.model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#readpyne-ocr">readpyne.ocr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#readpyne-utils">readpyne.utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#readpyne-core">readpyne.core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#readpyne-io">readpyne.io</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="example.html">Example usage</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Documentation for readpyne</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="example.html"
+                        title="next chapter">Example usage</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/api.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="example.html" title="Example usage"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Documentation for readpyne"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">readpyne  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Art Eidukas @ Data Science Campus.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.0.1.
+    </div>
+  </body>
+</html>

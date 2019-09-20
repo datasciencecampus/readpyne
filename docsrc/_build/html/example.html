@@ -1,0 +1,271 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Example usage &#8212; readpyne  documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="API Reference" href="api.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="api.html" title="API Reference"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">readpyne  documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="example-usage">
+<h1>Example usage<a class="headerlink" href="#example-usage" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># NOTE THIS WONT RUN AND IS JUST ILLUSTRATIVE</span>
+<span class="c1"># Eventually this will be rewritten in sphinx to be part of docs in a nice format</span>
+<span class="c1"># Fuller documentation is available in https://datasciencecampus.github.io/readpyne/</span>
+
+
+<span class="c1"># third party</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+
+<span class="c1"># project</span>
+<span class="kn">import</span> <span class="nn">readpyne</span> <span class="kn">as</span> <span class="nn">rp</span>
+
+<span class="kn">from</span> <span class="nn">readpyne</span> <span class="kn">import</span> <span class="n">io</span>
+<span class="kn">from</span> <span class="nn">readpyne</span> <span class="kn">import</span> <span class="n">ocr</span>
+<span class="kn">from</span> <span class="nn">readpyne</span> <span class="kn">import</span> <span class="n">utils</span>
+<span class="kn">from</span> <span class="nn">readpyne</span> <span class="kn">import</span> <span class="n">model</span> <span class="k">as</span> <span class="n">m</span>
+<span class="kn">from</span> <span class="nn">readpyne</span> <span class="kn">import</span> <span class="n">transform</span> <span class="k">as</span> <span class="n">tr</span>
+
+<span class="c1"># --------------------------------------------------------------------------------</span>
+<span class="c1"># It is important to know what shop the receipt is from before moving on to any</span>
+<span class="c1"># extraction. In order to check what shop it belongs to use the following function</span>
+<span class="n">shop</span> <span class="o">=</span> <span class="n">rp</span><span class="o">.</span><span class="n">shopscan</span><span class="p">(</span><span class="n">img_as_ndarray</span><span class="p">)</span>
+
+<span class="c1"># This will work for a few shops only by default.</span>
+
+<span class="c1"># --------------------------------------------------------------------------------</span>
+<span class="c1"># Example of getting training data which can be used to train a better line</span>
+<span class="c1"># classifier. Note: make sure that the folder only contains images</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">make_training_data</span><span class="p">(</span>
+    <span class="c1"># Folder with receipt images that will be turned into training data</span>
+    <span class="n">input_folder</span><span class="o">=</span><span class="s2">&quot;path/to/training_data_folder&quot;</span><span class="p">,</span>
+    <span class="c1"># Where to save the cutout lines and the csv that needs to be labeled</span>
+    <span class="n">output_folder</span><span class="o">=</span><span class="s2">&quot;path/to/training_output_folder&quot;</span><span class="p">,</span>
+    <span class="c1"># This specifies if you want the new interactive behaviour to be enabled</span>
+    <span class="c1"># True by default!</span>
+    <span class="n">interactive</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="c1"># Context</span>
+    <span class="c1"># This is a key parameter. The usage of this parameter is detailed in the other</span>
+    <span class="c1"># instructions below</span>
+    <span class="n">context</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;dictionary&quot;</span><span class="p">:</span> <span class="s2">&quot;with&quot;</span><span class="p">,</span> <span class="s2">&quot;specific&quot;</span><span class="p">:</span> <span class="s2">&quot;configuration&quot;</span><span class="p">,</span> <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="s2">&quot;!&quot;</span><span class="p">},</span>
+<span class="p">)</span>
+
+<span class="c1"># If interactive = True</span>
+<span class="c1"># In the case you used interactive mode, your function call will return the training</span>
+<span class="c1"># data as a dataframe. If you provided an output folder alongside interactive mode</span>
+<span class="c1"># it will also save the training data in that folder.</span>
+
+<span class="c1"># If Interactive == False</span>
+<span class="c1"># You should then proceed to adjust the `label` column in the `training.csv` file</span>
+<span class="c1"># and mark the lines that you want to extract as 1s. How do you correspond the csv</span>
+<span class="c1"># to the subsets I hear you ask? Well each subset will be labeled from 2 to n.jpg</span>
+<span class="c1"># Each line in the csv (except obviously the headings hence the labeling from 2)</span>
+<span class="c1"># corresponds to a given subset of the image.</span>
+
+<span class="c1"># NOTE ON CONTEXT:</span>
+<span class="c1"># This is a functionality which allows tailoring the pipeline for a given shop.</span>
+<span class="c1"># Most shops will have different padding hence this will be important to not only</span>
+<span class="c1"># training data making but also to the process of extraction.</span>
+
+<span class="c1"># I would recommend finding dictionaries of parameters that work well for each shop</span>
+<span class="c1"># type and utilise the ``shopscan`` function to tailor the data generation and</span>
+<span class="c1"># extraction parts of the package.</span>
+
+<span class="c1"># To see the default context for this function do the following</span>
+<span class="kn">from</span> <span class="nn">readpyne.model</span> <span class="kn">import</span> <span class="n">default_context</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">default_context</span><span class="p">)</span>
+
+<span class="c1"># --------------------------------------------------------------------------------</span>
+<span class="c1"># Example of taking prelabelled data and training a model (see previous step on</span>
+<span class="c1"># how to get data)</span>
+<span class="n">training_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;location/to/labeled/training_data.csv&quot;</span><span class="p">)</span>
+
+<span class="n">model</span><span class="p">,</span> <span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">train_model</span><span class="p">(</span>
+    <span class="c1"># Training features</span>
+    <span class="n">df</span><span class="o">=</span><span class="n">training_data</span><span class="p">,</span>
+    <span class="c1"># Should you get a little bit of feedback on the f1-score and accuracy after</span>
+    <span class="c1"># training</span>
+    <span class="n">report</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="c1"># Where to save the trained sklearn model</span>
+    <span class="n">save_path</span><span class="o">=</span><span class="s2">&quot;path/to/save/classifier/model.pkl&quot;</span>
+    <span class="c1"># sk_model &amp; model_params can be passed see documentation</span>
+<span class="p">)</span>
+
+<span class="c1"># --------------------------------------------------------------------------------</span>
+<span class="c1"># Example of extracting lines from an image</span>
+<span class="c1"># If no classifier path is provided a default classifier will be used</span>
+<span class="c1"># which is only trained on one store type and has loose ground truth</span>
+<span class="c1"># labels (see docs on how to provide a classifier from previous step)</span>
+
+<span class="c1"># NOTE: As with the ``make_training_data`` function above, you can and should</span>
+<span class="c1"># use the context dictionary for extraction. It would ideally be the same as the one</span>
+<span class="c1"># used to train the model for a given shop. So the padding and other parameters</span>
+<span class="c1"># are respected.</span>
+
+<span class="c1"># From a image path:</span>
+<span class="n">imgs</span> <span class="o">=</span> <span class="n">rp</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="n">input_image_as_str</span><span class="p">)</span>
+<span class="c1"># From Image</span>
+<span class="n">imgs</span> <span class="o">=</span> <span class="n">rp</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="n">input_img_loaded_with_io_load_validate</span><span class="p">)</span>
+<span class="c1"># From a path to a folder</span>
+<span class="n">imgs</span> <span class="o">=</span> <span class="n">rp</span><span class="o">.</span><span class="n">extract_from_folder</span><span class="p">(</span><span class="n">folder_path</span><span class="p">)</span>
+
+<span class="c1"># I&#39;ve added aditional functionality!</span>
+<span class="c1"># If you run the following command, you will get a tuple out (items, non-items).</span>
+<span class="n">imgs</span><span class="p">,</span> <span class="n">non_items</span> <span class="o">=</span> <span class="n">rp</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="n">input_see_above</span><span class="p">,</span> <span class="n">return_negatives</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># Afterwards you can proceed to run the rest of the pipeline as normal on the &#39;imgs&#39;</span>
+<span class="c1"># However please see further down how to use the `non_items` to get date and shop name</span>
+
+<span class="c1"># Please note! That if you specify `override_prediction = True` in the extract</span>
+<span class="c1"># function, the line classification will be avoided and one can see just what the</span>
+<span class="c1"># text line detection is finding in terms of lines.</span>
+
+<span class="c1"># --------------------------------------------------------------------------------</span>
+<span class="c1"># If you wanted to then use the lines found by the above code and to put them into</span>
+<span class="c1"># a pandas dataframe, then you can simply use the code below. If you wanted more</span>
+<span class="c1"># control, look at the code further down in the next section it will show how to get</span>
+<span class="c1"># the text, extract it and save it.</span>
+<span class="n">df_with_items</span> <span class="o">=</span> <span class="n">rp</span><span class="o">.</span><span class="n">item_pipe</span><span class="p">(</span><span class="n">imgs</span><span class="p">)</span>
+
+<span class="c1"># If you ran line 70 which created an extra variable `non_items` you can now run</span>
+<span class="c1"># an extra bit of the pipeline (currently tuned only to only formats specific to a</span>
+<span class="c1"># single shop). This pipeline will extract 2 things: date and shop name if it finds</span>
+<span class="c1"># them.</span>
+<span class="n">date_shopname</span> <span class="o">=</span> <span class="n">rp</span><span class="o">.</span><span class="n">extras_pipe</span><span class="p">(</span><span class="n">non_items</span><span class="p">)</span>
+
+<span class="c1"># --------------------------------------------------------------------------------</span>
+<span class="c1"># EXTRAS</span>
+<span class="c1"># --------------------------------------------------------------------------------</span>
+<span class="c1"># Get text for each subset. So imgs here is the list of lines extracted by the # code so far.</span>
+<span class="n">text_and_images</span> <span class="o">=</span> <span class="n">ocr</span><span class="o">.</span><span class="n">ocr_textM</span><span class="p">(</span><span class="n">imgs</span><span class="p">)</span>
+
+<span class="c1"># Quality of the whole pipeline</span>
+<span class="c1"># If gold standard measurements are available, meaning you have a receipt</span>
+<span class="c1"># that has been typed up and you have the required lines from it in a text</span>
+<span class="c1"># file and/or list, you can use the quality metric provided to compare the</span>
+<span class="c1"># recall of the filtering and the quality of the OCR on the recalled lines</span>
+<span class="c1"># using the following code</span>
+<span class="n">utils</span><span class="o">.</span><span class="n">quality_metric</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">&quot;lines&quot;</span><span class="p">,</span> <span class="s2">&quot;extracted&quot;</span><span class="p">,</span> <span class="s2">&quot;by&quot;</span><span class="p">,</span> <span class="s2">&quot;ocr&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;correct&quot;</span><span class="p">,</span> <span class="s2">&quot;lines&quot;</span><span class="p">,</span> <span class="s2">&quot;expected&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="c1"># Show the predicted text labels in a matplolib window. At the moment its not</span>
+<span class="c1"># perfect as the labels overlap the images. But you can resize the window until it</span>
+<span class="c1"># works.</span>
+<span class="c1"># NOTE: exporting the labels somehow will be added in future versions</span>
+<span class="n">io</span><span class="o">.</span><span class="n">show_ocr</span><span class="p">(</span><span class="n">text_and_images</span><span class="p">)</span>
+
+<span class="c1"># You can also export the text that it finds into a txt file.</span>
+<span class="n">io</span><span class="o">.</span><span class="n">export_ocr</span><span class="p">(</span><span class="n">text_and_images</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;my_ocr_findings.txt&quot;</span><span class="p">)</span>
+
+<span class="c1"># Below is the functionality to crop receipts from larger images, given that the</span>
+<span class="c1"># contrast between the receipts and the background is sufficient.</span>
+<span class="n">tr</span><span class="o">.</span><span class="n">crop_image</span><span class="p">(</span><span class="n">img_as_ndarray</span><span class="p">)</span>
+
+<span class="c1"># The quality settings determines the size of the image before detecting the edges.</span>
+<span class="c1"># This can be either 1, 2 or 3. A higher is more precise but can cause problems with edge</span>
+<span class="c1"># detection depending on the quality of the input image.</span>
+<span class="n">tr</span><span class="o">.</span><span class="n">crop_image</span><span class="p">(</span><span class="n">img_as_ndarray</span><span class="p">,</span> <span class="n">quality</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># You can crop one or multiple receipts from an image depending on whether the parameter</span>
+<span class="c1"># multiple_receipts = True or False.</span>
+<span class="c1"># NOTE: It is advisable to use quality=1 when cropping multiple receipts from one image.</span>
+<span class="n">tr</span><span class="o">.</span><span class="n">crop_image</span><span class="p">(</span><span class="n">img_as_ndarray</span><span class="p">,</span> <span class="n">quality</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">multiple_receipts</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># Below is a function to crop receipts from multiple images, both regular images and images</span>
+<span class="c1"># with more than one receipts on them. It automatically predicts whether or not the image</span>
+<span class="c1"># should have the multiple_receipts paramater set to True.</span>
+<span class="n">tr</span><span class="o">.</span><span class="n">crop_images_from_folder</span><span class="p">(</span><span class="n">folder_path</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Example usage</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="api.html"
+                        title="previous chapter">API Reference</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/example.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="api.html" title="API Reference"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">readpyne  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Art Eidukas @ Data Science Campus.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.0.1.
+    </div>
+  </body>
+</html>

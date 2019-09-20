@@ -1,0 +1,116 @@
+#+TITLE: readpyne explained
+#+OPTIONS: toc:nil author:nil timestamp:nil num:nil reveal_slide_number:nil
+
+#+REVEAL_ROOT: https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0
+#+REVEAL_THEME: black
+#+REVEAL_SPEED: fast
+#+REVEAL_TRANS: slide
+
+THIS DOCUMENT IS OUTDATED BUT MIGHT BE STILL USEFUL!
+
+* Method summary
+** Stage 1
+1. Ingest image
+2. Find all text using EAST
+3. Expand the text boxes (max width)
+** Stage 2
+1. Create pixel intensity histograms
+2. Label these histograms
+3. Train a classifier of `line` vs `not`
+** Stage 3
+1. Use classifier to get correct lines
+2. OCR each line using Tesseract
+3. Use regex to parse text (optional)
+* Stage 1
+** Ingest image
+- Most of the data processing is done using the OpenCV library bindings in python.
+- Current preprocessing is only thresholding and normalization. (the later might not be needed)
+** Find all text using EAST
+- [[https://arxiv.org/abs/1704.03155][EAST Paper]]
+- Finds a *lot* of bounding boxes
+- Found pretrained model somewhere
+- This uses OpenCV.dnn
+** Expand the boxes to receipt width
+- Non Maximum Suppression after
+- Padding happens after (might be worth trying before 🤔)
+* Stage 2
+** Create pixel intensity histograms
+- Split 3 channels
+- Collapse the `y` axis by taking average
+** Label these histograms
+- After exporting them in csv label them
+- Each row corresponds to one line extracted
+- Images are provided next to '.csv'
+** Train classifier
+- All of it is in sklearn as of now
+- KNN by default
+- A default one for Tesco ships with the repo
+** Side note: many small features to make this easier
+- Interactive, labeling for training data
+- GridSearchCV by default
+- Model saving for reuse
+- Diagnostic printouts for the model
+- Diagram of how well your model scales
+- Keras support (easy to add if needed)
+
+* Stage 3
+** What do we have so far?
+- Ability to get lines extracted
+- Can make histograms for each line
+- A classifier to tell us if we want the line
+** Use classifier to get correct lines
+- Once you have a classifier (or sorting hat) - Use it!
+- Pipeline separates rubbish lines from the one we care about
+- Most likely we'll need to make it adapt to shops
+** Note: You can disable this and just get all lines!
+** OCR each line using Tesseract
+- Using the new LSTM engine
+- Needs version 4 and up for LSTM engine
+- Using the `1 line of text` setting
+** Use regex to parse text
+- Implemented a rudimentary regex to find anything that looks like a price in
+  the end of a line.
+- Will be shop dependent
+- Defaults to everything being item if no price found
+* All of it boils down to:
+
+#+BEGIN_SRC python
+import readpyne as rp
+
+lines = rp.model.extract("path/to/data")
+df = rp.ocr.item_pipe(lines)
+#+END_SRC
+
+* Live Demo (code + app)
+* Whats next?
+** Obviously we need to tweak and play about with the parameters
+- Minimum confidence from EAST?
+- Use probability threshold in classifier?
+- Find a quality metric for pipeline?
+** Preprocessing
+- Happens several times
+- We need to consider how we preprocess before we push the OCR
+- I coded this in a way where you can slot in a function
+- Also we should see what steps to take before EAST
+** Skewed text
+- The receipts are skewed.
+- Uneven skew
+- Make sensible padding difficult
+** Code improvements
+- There is always something that can be improved.
+- Already an idea for refactoring in my head
+- Ground for practice? (But I sign off on it 😏)
+** LSTM
+- Can try an LSTM on `histograms` to classify
+- This will need a Keras back-end
+** Other Classifiers
+- KNN choice is arbitrary (well it made sense)
+** Regex
+- I thought I'd mention it but to be fair its the NLP side
+- Current one is rudimentary
+** Extract receipt from photo
+- We could avoid scanners all together
+- Take photo \rightarrow crop out receipt
+- My pipeline will accept it
+* Did I miss anything?
+[[https://github.com/datasciencecampus/essenskosten/projects/3][Mah Board]]

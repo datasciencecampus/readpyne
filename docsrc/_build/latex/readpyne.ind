@@ -1,0 +1,76 @@
+\begin{sphinxtheindex}
+\let\bigletter\sphinxstyleindexlettergroup
+\let\spxpagem \sphinxstyleindexpagemain
+\let\spxentry \sphinxstyleindexentry
+\let\spxextra \sphinxstyleindexextra
+
+  \bigletter B
+  \item \spxentry{binit()}\spxextra{in module readpyne.core}, \hyperpage{1}
+  \item \spxentry{blobify()}\spxextra{in module readpyne.core}, \hyperpage{1}
+  \item \spxentry{boxes()}\spxextra{in module readpyne.core}, \hyperpage{1}
+
+  \indexspace
+  \bigletter C
+  \item \spxentry{cutout\_save()}\spxextra{in module readpyne.io}, \hyperpage{5}
+
+  \indexspace
+  \bigletter D
+  \item \spxentry{decode()}\spxextra{in module readpyne.core}, \hyperpage{1}
+
+  \indexspace
+  \bigletter E
+  \item \spxentry{expand()}\spxextra{in module readpyne.core}, \hyperpage{2}
+  \item \spxentry{extract()}\spxextra{in module readpyne.model}, \hyperpage{4}
+
+  \indexspace
+  \bigletter F
+  \item \spxentry{features()}\spxextra{in module readpyne.core}, \hyperpage{2}
+  \item \spxentry{forward()}\spxextra{in module readpyne.core}, \hyperpage{2}
+
+  \indexspace
+  \bigletter G
+  \item \spxentry{get\_data()}\spxextra{in module readpyne.io}, \hyperpage{5}
+  \item \spxentry{get\_subsets()}\spxextra{in module readpyne.core}, \hyperpage{3}
+
+  \indexspace
+  \bigletter H
+  \item \spxentry{hist()}\spxextra{in module readpyne.core}, \hyperpage{3}
+
+  \indexspace
+  \bigletter L
+  \item \spxentry{load\_model()}\spxextra{in module readpyne.io}, \hyperpage{6}
+
+  \indexspace
+  \bigletter M
+  \item \spxentry{make\_training\_data()}\spxextra{in module readpyne.model}, \hyperpage{4}
+
+  \indexspace
+  \bigletter P
+  \item \spxentry{process()}\spxextra{in module readpyne.core}, \hyperpage{3}
+
+  \indexspace
+  \bigletter R
+  \item \spxentry{readpyne.core}\spxextra{module}, \hyperpage{1}
+  \item \spxentry{readpyne.decorators}\spxextra{module}, \hyperpage{4}
+  \item \spxentry{readpyne.io}\spxextra{module}, \hyperpage{5}
+  \item \spxentry{readpyne.model}\spxextra{module}, \hyperpage{4}
+  \item \spxentry{resize()}\spxextra{in module readpyne.core}, \hyperpage{3}
+
+  \indexspace
+  \bigletter S
+  \item \spxentry{save\_images()}\spxextra{in module readpyne.io}, \hyperpage{6}
+  \item \spxentry{save\_stack()}\spxextra{in module readpyne.io}, \hyperpage{6}
+  \item \spxentry{show()}\spxextra{in module readpyne.io}, \hyperpage{6}
+  \item \spxentry{stack()}\spxextra{in module readpyne.core}, \hyperpage{3}
+  \item \spxentry{status()}\spxextra{in module readpyne.model}, \hyperpage{5}
+
+  \indexspace
+  \bigletter T
+  \item \spxentry{timeit()}\spxextra{in module readpyne.decorators}, \hyperpage{4}
+  \item \spxentry{train\_model()}\spxextra{in module readpyne.model}, \hyperpage{5}
+
+  \indexspace
+  \bigletter U
+  \item \spxentry{unfold\_args()}\spxextra{in module readpyne.decorators}, \hyperpage{4}
+
+\end{sphinxtheindex}

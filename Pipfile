@@ -1,0 +1,29 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+sphinx="*"
+sphinx-git="*"
+sphinxcontrib-fulltoc="*"
+sphinx-readable-theme="*"
+jedi = "*"
+pytest="*"
+pytest-cov="*"
+hypothesis="*"
+
+[packages]
+numpy = "*"
+opencv-python = "*"
+toolz = "*"
+matplotlib = "*"
+imutils = "*"
+pandas = "*"
+sklearn = "*"
+pytesseract = "*"
+tqdm = "*"
+textacy = "*"
+
+[requires]
+python_version = "3.7"
