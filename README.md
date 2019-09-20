@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/datasciencecampus/readpyne.svg?token=er1Tq53jBBtypkGES25q&branch=master)](https://travis-ci.com/datasciencecampus/readpyne)
+
 
 # readpyne
 
